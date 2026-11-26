@@ -5,6 +5,7 @@ const pool = require('./db/pool');
 const { authenticate } = require('./middleware/auth');
 const { loadUser } = require('./middleware/loadUser');
 const teamsRoutes = require('./routes/teams');
+const tasksRoutes = require('./routes/tasks');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -29,6 +30,7 @@ app.get('/me', authenticate, (req, res) => {
   res.json({ user: req.user });
 });
 
+app.use('/teams/:teamId/tasks', authenticate, loadUser, tasksRoutes);
 app.use('/teams', authenticate, loadUser, teamsRoutes);
 
 app.listen(PORT, () => {
