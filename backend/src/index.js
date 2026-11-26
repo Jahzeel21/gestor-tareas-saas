@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const pool = require('./db/pool');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -10,6 +11,15 @@ app.use(express.json());
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+app.get('/health/db', async (req, res) => {
+  try {
+    const result = await pool.query('SELECT NOW() AS ahora');
+    res.json({ status: 'ok', ahora: result.rows[0].ahora });
+  } catch (error) {
+    res.status(500).json({ status: 'error', message: error.message });
+  }
 });
 
 app.listen(PORT, () => {
