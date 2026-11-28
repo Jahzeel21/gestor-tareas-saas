@@ -92,7 +92,7 @@ export default function TeamsPage() {
             <Link href={`/team?id=${t.id}`}>
               <strong>{t.name}</strong>
             </Link>{' '}
-            <small>({t.role})</small>
+            <small>({t.role})</small>{" "}<Link href={`/tasks?team=${t.id}`}>Ver tareas</Link>
           </li>
         ))}
       </ul>
